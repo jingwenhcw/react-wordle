@@ -20,7 +20,6 @@ const Wordle = ({ solution }) => {
 
   return (
     <div>
-      current guess: {currentGuess}
       <Grid currentGuess={currentGuess} guesses={guesses} turn={turn} />
     </div>
   );

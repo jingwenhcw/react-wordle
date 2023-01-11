@@ -1,4 +1,22 @@
-const Row = ({ guess }) => {
+const Row = ({ guess, currentGuess }) => {
+  const maxLetters = 5;
+  if (currentGuess) {
+    const letters = [...currentGuess];
+
+    return (
+      <div className='row currentGuess'>
+        {letters.map((l, i) => (
+          <div key={i} className='filled'>
+            {l}
+          </div>
+        ))}
+        {[...Array(maxLetters - letters.length)].map(() => (
+          <div />
+        ))}
+      </div>
+    );
+  }
+
   if (guess) {
     return (
       <div className='row past'>
@@ -7,17 +25,16 @@ const Row = ({ guess }) => {
             {l.key}
           </div>
         ))}
+        {}
       </div>
     );
   }
 
   return (
     <div className='row'>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
-      <div></div>
+      {[...Array(maxLetters)].map(() => (
+        <div></div>
+      ))}
     </div>
   );
 };
