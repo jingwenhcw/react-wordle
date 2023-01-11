@@ -10,8 +10,8 @@ const Row = ({ guess, currentGuess }) => {
             {l}
           </div>
         ))}
-        {[...Array(maxLetters - letters.length)].map(() => (
-          <div />
+        {[...Array(maxLetters - letters.length)].map((item, i) => (
+          <div key={letters.length + i} />
         ))}
       </div>
     );
@@ -32,8 +32,8 @@ const Row = ({ guess, currentGuess }) => {
 
   return (
     <div className='row'>
-      {[...Array(maxLetters)].map(() => (
-        <div></div>
+      {[...Array(maxLetters)].map((item, i) => (
+        <div key={i}></div>
       ))}
     </div>
   );
