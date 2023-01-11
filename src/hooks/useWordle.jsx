@@ -4,10 +4,30 @@ const useWordle = (solution) => {
   const [turn, setTurn] = useState(0);
   const [currentGuess, setCurrentGuess] = useState('');
   const [guesses, setGuesses] = useState([]);
+  const [history, setHistory] = useState([]);
   const [isCorrect, setIsCorrect] = useState(false);
 
-  const formatGuess = (word) => {
-    const letters = word.split('');
+  const formatGuess = () => {
+    const solutionArr = [...solution];
+    const formattedGuess = [...currentGuess].map((letter) => {
+      return {
+        key: letter,
+        color: 'grey',
+      };
+    });
+
+    formattedGuess.forEach((letter, index) => {
+      const foundIndex = solutionArr.indexOf(letter.key);
+      if (foundIndex !== -1) {
+        if (index === foundIndex) {
+          letter.color = 'green';
+          return;
+        }
+        letter.color = 'yellow';
+      }
+    });
+
+    return formattedGuess;
   };
 
   const addNewGuess = () => {};
@@ -22,6 +42,15 @@ const useWordle = (solution) => {
       if (currentGuess.length < 5) {
         setCurrentGuess((prevGuess) => prevGuess + key);
       }
+    }
+
+    if (
+      key === 'Enter' &&
+      currentGuess.length === 5 &&
+      !history.includes(currentGuess)
+    ) {
+      const formatted = formatGuess();
+      console.log(formatted);
     }
   };
 

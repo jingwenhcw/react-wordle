@@ -8,8 +8,10 @@ function App() {
 
   useEffect(() => {
     const randomIndex = Math.floor(Math.random() * data.solutions.length);
-    setSolution(data.solutions[randomIndex]);
+    setSolution(data.solutions[randomIndex].word);
   }, [setSolution]);
+
+  console.log(`solution: ${solution}`);
 
   return (
     <div className='App'>
