@@ -4,7 +4,7 @@ const Row = ({ guess, currentGuess }) => {
     const letters = [...currentGuess];
 
     return (
-      <div className='row currentGuess'>
+      <div className='row current'>
         {letters.map((l, i) => (
           <div key={i} className='filled'>
             {l}

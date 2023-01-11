@@ -6,24 +6,27 @@ const useWordle = (solution) => {
   const [guesses, setGuesses] = useState([...Array(6)]); // each guess is an array
   const [history, setHistory] = useState([]); // each guess is a string
   const [isCorrect, setIsCorrect] = useState(false);
+  const [usedKeys, setUsedKeys] = useState({});
 
   const formatGuess = () => {
-    const solutionArr = [...solution];
-    const formattedGuess = [...currentGuess].map((letter) => {
-      return {
-        key: letter,
-        color: 'grey',
-      };
+    let solutionArray = [...solution];
+    let formattedGuess = [...currentGuess].map((l) => {
+      return { key: l, color: 'grey' };
     });
 
-    formattedGuess.forEach((letter, index) => {
-      const foundIndex = solutionArr.indexOf(letter.key);
-      if (foundIndex !== -1) {
-        if (index === foundIndex) {
-          letter.color = 'green';
-          return;
-        }
-        letter.color = 'yellow';
+    // find any green letters
+    formattedGuess.forEach((l, i) => {
+      if (solution[i] === l.key) {
+        formattedGuess[i].color = 'green';
+        solutionArray[i] = null;
+      }
+    });
+
+    // find any yellow letters
+    formattedGuess.forEach((l, i) => {
+      if (solutionArray.includes(l.key) && l.color !== 'green') {
+        formattedGuess[i].color = 'yellow';
+        solutionArray[solutionArray.indexOf(l.key)] = null;
       }
     });
 
@@ -43,6 +46,33 @@ const useWordle = (solution) => {
 
     setTurn((prev) => prev + 1);
     setHistory((prev) => [...prev, currentGuess]);
+    setUsedKeys((prevKeys) => {
+      const newKeys = { ...prevKeys };
+      formattedGuess.forEach((l) => {
+        const currentColor = newKeys[l.key];
+
+        if (l.color === 'green') {
+          newKeys[l.key] = 'green';
+          return;
+        }
+
+        if (l.color === 'yellow' && currentColor !== 'green') {
+          newKeys[l.key] = 'yellow';
+          return;
+        }
+
+        if (
+          l.color === 'grey' &&
+          currentColor !== 'green' &&
+          currentColor !== 'yellow'
+        ) {
+          newKeys[l.key] = 'grey';
+          return;
+        }
+      });
+
+      return newKeys;
+    });
     setCurrentGuess('');
   };
 
@@ -73,6 +103,7 @@ const useWordle = (solution) => {
     currentGuess,
     guesses,
     isCorrect,
+    usedKeys,
     handleKeyup,
   };
 };
