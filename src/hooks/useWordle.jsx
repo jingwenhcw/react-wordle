@@ -76,6 +76,15 @@ const useWordle = (solution) => {
     setCurrentGuess('');
   };
 
+  const resetWordle = () => {
+    setTurn(0);
+    setCurrentGuess('');
+    setIsCorrect(false);
+    setHistory([]);
+    setUsedKeys({});
+    setGuesses([...Array(6)]);
+  };
+
   const handleKeyup = ({ key }) => {
     if (key === 'Backspace') {
       setCurrentGuess((prevGuess) => prevGuess.slice(0, -1));
@@ -105,6 +114,7 @@ const useWordle = (solution) => {
     isCorrect,
     usedKeys,
     handleKeyup,
+    resetWordle,
   };
 };
 

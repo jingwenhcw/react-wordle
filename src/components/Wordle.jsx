@@ -4,10 +4,23 @@ import Grid from './Grid';
 import Keypad from './Keypad';
 import Modal from './Modal';
 
-const Wordle = ({ solution }) => {
-  const { currentGuess, guesses, isCorrect, turn, usedKeys, handleKeyup } =
-    useWordle(solution);
+const Wordle = ({ solution, reset }) => {
+  const {
+    currentGuess,
+    guesses,
+    isCorrect,
+    turn,
+    usedKeys,
+    handleKeyup,
+    resetWordle,
+  } = useWordle(solution);
   const [showModal, setShowModal] = useState(false);
+
+  const resetGame = () => {
+    setShowModal(false);
+    resetWordle();
+    reset();
+  };
 
   useEffect(() => {
     window.addEventListener('keyup', handleKeyup);
@@ -34,12 +47,18 @@ const Wordle = ({ solution }) => {
               <h1>You Win!</h1>
               <p className='solution'>{solution}</p>
               <p>You found the solution in {turn} guesses </p>
+              <button className='btn' onClick={resetGame}>
+                Try again
+              </button>
             </div>
           ) : (
             <div>
               <h1>Nevermind!</h1>
               <p className='solution'>{solution}</p>
               <p>Better luck next time </p>
+              <button className='btn' onClick={resetGame}>
+                Try again
+              </button>
             </div>
           )}
         </Modal>
